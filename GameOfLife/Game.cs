@@ -12,7 +12,7 @@ namespace GameOfLife
         public Board board { get; set; }
         public Game()
         {
-            board = new Board(10, 10, true);
+
         }
 
         internal void Play()
@@ -24,28 +24,51 @@ namespace GameOfLife
                 "\n2. Load board from file");
 
             var input = Console.ReadLine();
+            bool status = false;
 
             switch (input)
             {
                 case "1":
-                    StartGameLoop();
+                    status = InitializeBoard();
                     break;
 
                 case "2":
-                    throw new NotImplementedException();
+                    Console.WriteLine("Not implemented yet");
                     break;
 
                 default:
                     Console.WriteLine("Invalid input.");
                     break;
             }
+            if (status)
+                StartGameLoop();
+
             Console.WriteLine("Game over.");
 
         }
 
+        private bool InitializeBoard()
+        {
+            Console.WriteLine("Dimensions:\nRows: ");
+            var rows = Console.ReadLine();
+
+            Console.WriteLine("Coloumns: ");
+            var cols = Console.ReadLine();
+
+            try
+            {
+                board = new Board(Convert.ToInt32(rows), Convert.ToInt32(cols), true);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Failed to initialize board. Exception: " + e.Message);
+                return false;
+            }
+        }
         private void StartGameLoop()
         {
-            
+
             for (int i = 0; i < 50; i++)
             {
                 Console.Clear();
